@@ -5,7 +5,7 @@ const port = 5000;
 
 app.use(express.static("public"));
 
-app.get("/", (req, res) =>
+app.get("/song_server", (req, res) =>
   res.sendFile(path.join(__dirname + "/public/index.html"))
 );
 
