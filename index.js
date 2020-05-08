@@ -4,7 +4,7 @@ const path = require("path");
 const mysql = require("mysql");
 const port = process.env.PORT || "5000";
 const dbConnection = mysql.createConnection({
-  host: "www.kuetradio.org",
+  host: "localhost",
   user: "kuetradi_admin",
   password: "]r1TvU(tXHd6",
   database: "kuetradi_kuet_radio_database",
