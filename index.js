@@ -11,7 +11,7 @@ const getSonglistOptions = {
 };
 
 let songlist;
-let playingSong = {
+const playingSong = {
   id: 0,
   played: 0,
 };
@@ -36,37 +36,43 @@ async function getSongList() {
 
   console.log(songlist.length);
 
-  // for (let i = 0; ; i++) {
-  //   setTimeout(() => {
-  //     playingSong.id = songlist[i].id;
-  //     playingSong.played = 0;
+  let songIndex = 0;
 
-  //     console.log(playingSong);
+  playingSong.id = songlist[songIndex].id;
+  playingSong.played = 0;
 
-  //     if (i === songlist.length - 1) {
-  //       i = -1;
-  //       console.log("Reset i: ", i);
-  //     }
-  //   }, 1000);
-  // }
-
-  function songLoop(i = 0) {
-    console.log(playingSong);
-    setTimeout(() => {
-      playingSong.id = songlist[i].id;
-      playingSong.played = 0;
-
-      if (i === songlist.length - 1) {
-        i = 0;
+  function songLoop(songIndex) {
+    let fullSongInterval = setInterval(() => {
+      if (songIndex === songlist.length - 1) {
+        songIndex = 0;
       } else {
-        i++;
+        songIndex++;
       }
 
-      songLoop(i);
+      console.log(playingSong.id + " has ended......");
+
+      playingSong.id = songlist[songIndex].id;
+      playingSong.played = 0;
+
+      console.log(playingSong.id + " has started......");
+
+      clearInterval(fullSongInterval);
+      clearInterval(secondsInterval);
+      songLoop(songIndex);
+    }, songlist[songIndex].duration * 1000);
+
+    let secondsInterval = setInterval(() => {
+      console.log(
+        playingSong.id +
+          " has been playing for " +
+          playingSong.played / 1000 +
+          " second"
+      );
+      playingSong.played += 1000;
     }, 1000);
   }
 
-  songLoop();
+  songLoop(songIndex);
 }
 
 getSongList();
