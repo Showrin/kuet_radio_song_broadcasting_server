@@ -22,6 +22,11 @@ app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname + "/public/index.html"))
 );
 
+app.get("/playing", (req, res) => {
+  res.send(playingSong);
+  console.log("Knocked at " + playingSong.played);
+});
+
 app.listen(port, () => console.log("Server has been started"));
 
 async function getSongList() {
