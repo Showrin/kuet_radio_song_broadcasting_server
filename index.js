@@ -11,10 +11,7 @@ const getSonglistOptions = {
 };
 
 let songlist;
-const playingSong = {
-  id: 0,
-  played: 0,
-};
+let playingSong = {};
 
 app.use(express.static("public"));
 
@@ -43,8 +40,7 @@ async function getSongList() {
 
   let songIndex = 0;
 
-  playingSong.id = songlist[songIndex].id;
-  playingSong.played = 0;
+  playingSong = { ...songlist[songIndex], played: 0 };
 
   function songLoop(songIndex) {
     let fullSongInterval = setInterval(() => {
@@ -56,8 +52,7 @@ async function getSongList() {
 
       console.log(playingSong.id + " has ended......");
 
-      playingSong.id = songlist[songIndex].id;
-      playingSong.played = 0;
+      playingSong = { ...songlist[songIndex], played: 0 };
 
       console.log(playingSong.id + " has started......");
 
