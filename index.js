@@ -20,7 +20,11 @@ app.get("/", (req, res) =>
 );
 
 app.get("/playing", (req, res) => {
-  res.send(playingSong);
+  let response = {
+    songlist,
+    playingSong,
+  };
+  res.send(response);
   console.log("Knocked at " + playingSong.played);
 });
 
@@ -40,7 +44,7 @@ async function getSongList() {
 
   let songIndex = 0;
 
-  playingSong = { ...songlist[songIndex], played: 0 };
+  playingSong = { songIndex, ...songlist[songIndex], played: 0 };
 
   function songLoop(songIndex) {
     let fullSongInterval = setInterval(() => {
@@ -52,7 +56,7 @@ async function getSongList() {
 
       console.log(playingSong.id + " has ended......");
 
-      playingSong = { ...songlist[songIndex], played: 0 };
+      playingSong = { songIndex, ...songlist[songIndex], played: 0 };
 
       console.log(playingSong.id + " has started......");
 
