@@ -24,7 +24,7 @@ app.use(function (req, res, next) {
     "http://kuetradio.org",
     "https://kuetradio.org",
   ];
-  let origin = req.get("host");
+  let origin = req.headers.origin;
 
   console.log(origin);
   console.log(allowedDomain);
