@@ -16,11 +16,25 @@ let playingSong = {};
 app.use(express.static("public"));
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://www.kuetradio.org");
+  let allowedDomain = [
+    "http://www.kuetradio.org",
+    "https://www.kuetradio.org",
+    "kuetradio.org",
+    "www.kuetradio.org",
+    "http://kuetradio.org",
+    "https://kuetradio.org",
+  ];
+  let origin = req.header.origin;
+
+  if (allowedDomain.indexOf(origin) > -1) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
+  res.header("Access-Control-Allow-Credentials", true);
   next();
 });
 
