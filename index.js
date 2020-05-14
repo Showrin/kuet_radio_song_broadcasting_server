@@ -25,8 +25,8 @@ app.use(function (req, res, next) {
   ];
   let origin = req.headers.origin;
 
-  console.log(origin);
-  console.log(allowedDomain);
+  // console.log(origin);
+  // console.log(allowedDomain);
 
   if (allowedDomain.indexOf(origin) > -1) {
     console.log("Got Origin");
@@ -55,10 +55,11 @@ app.get("/playing", (req, res) => {
 });
 
 app.post("/upload", function (req, res) {
-  var newSong = req.body.newSong;
+  var newSong = JSON.parse(req.body.newSong)[0];
   songlist.push(newSong);
   res.send("true");
   console.log(newSong);
+  console.log(songlist);
   console.log("post at " + playingSong.played);
 });
 
