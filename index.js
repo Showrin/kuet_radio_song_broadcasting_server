@@ -1,17 +1,16 @@
 const https = require("https");
 const axios = require("axios");
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 const path = require("path");
 const port = process.env.PORT || "5000";
-const getSonglistOptions = {
-  hostname: "www.kuetradio.org",
-  path: "/api/get_songlist.php",
-  method: "GET",
-};
 
 let songlist;
 let playingSong = {};
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(express.static("public"));
 
@@ -53,6 +52,14 @@ app.get("/playing", (req, res) => {
   };
   res.send(response);
   console.log("Knocked at " + playingSong.played);
+});
+
+app.post("/upload", function (req, res) {
+  var newSong = req.body.newSong;
+  songlist.push(newSong);
+  res.send("true");
+  console.log(newSong);
+  console.log("post at " + playingSong.played);
 });
 
 app.listen(port, () => console.log("Server has been started"));
