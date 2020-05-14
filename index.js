@@ -24,7 +24,7 @@ app.use(function (req, res, next) {
     "http://kuetradio.org",
     "https://kuetradio.org",
   ];
-  let origin = req.header.origin;
+  let origin = req.get("host");
 
   if (allowedDomain.indexOf(origin) > -1) {
     res.setHeader("Access-Control-Allow-Origin", origin);
