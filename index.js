@@ -26,7 +26,11 @@ app.use(function (req, res, next) {
   ];
   let origin = req.get("host");
 
+  console.log(origin);
+  console.log(allowedDomain);
+
   if (allowedDomain.indexOf(origin) > -1) {
+    console.log("Got Origin");
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
 
