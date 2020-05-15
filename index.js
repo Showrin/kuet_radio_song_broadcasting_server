@@ -1,4 +1,3 @@
-const https = require("https");
 const axios = require("axios");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -10,6 +9,7 @@ const port = process.env.PORT || "5000";
 let songlist;
 let playingSong = {};
 let newSongAdded = 0;
+let songIndex = 0;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -56,13 +56,29 @@ app.get("/playing", (req, res) => {
 });
 
 app.post("/upload", function (req, res) {
-  let newSong = JSON.parse(req.body.newSong)[0];
-  songlist.push(newSong);
+  // let newSong = JSON.parse(req.body.newSong)[0];
+  // songlist.push(newSong);
   newSongAdded++;
+
+  let lastPlayedSongIndex = newSongAdded + songIndex;
+  axios
+    .post("http://localhost/kuet_radio/api/sendLastPlayedSongIndex.php", null, {
+      params: {
+        lastPlayedSongIndex,
+      },
+    })
+    .then((response) => {
+      console.log("Song Index Changed ---------->");
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   res.send("true");
   console.log("Total new songs: " + newSongAdded);
-  console.log(newSong);
-  console.log(songlist);
+  // console.log(newSong);
+  // console.log(songlist);
   console.log("post at " + playingSong.played);
 });
 
@@ -88,6 +104,25 @@ async function getSongList() {
         songIndex++;
       }
 
+      let lastPlayedSongIndex = newSongAdded + songIndex;
+      axios
+        .post(
+          "http://localhost/kuet_radio/api/sendLastPlayedSongIndex.php",
+          null,
+          {
+            params: {
+              lastPlayedSongIndex,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Song Index Changed ---------->");
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       console.log(playingSong.name + " has ended......");
 
       playingSong = { songIndex, ...songlist[songIndex], played: 0 };
@@ -110,8 +145,14 @@ async function getSongList() {
     }, 1000);
   }
 
-  let songIndex = 0;
-  songIndex = 0;
+  songIndex = await axios
+    .get("http://localhost/kuet_radio/api/sendLastPlayedSongIndex.php")
+    .then((response) => {
+      return parseInt(response.data[0].song_index, 10);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   playingSong = { songIndex, ...songlist[songIndex], played: 0 };
 
   songLoop(songIndex);
