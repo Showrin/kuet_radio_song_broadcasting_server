@@ -8,7 +8,6 @@ const port = process.env.PORT || "5000";
 
 let songlist;
 let playingSong = {};
-let newSongAdded = 0;
 let songIndex = 0;
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -57,10 +56,11 @@ app.get("/playing", (req, res) => {
 
 app.post("/upload", function (req, res) {
   let newSong = JSON.parse(req.body.newSong)[0];
-  songlist.push(newSong);
-  newSongAdded++;
+  songlist.shift(newSong);
 
-  let lastPlayedSongIndex = newSongAdded + songIndex;
+  songIndex++;
+
+  let lastPlayedSongIndex = songIndex;
   axios
     .post("http://www.kuetradio.org/api/getLastPlayedSongIndex.php", null, {
       params: {
@@ -104,7 +104,7 @@ async function getSongList() {
         songIndex++;
       }
 
-      let lastPlayedSongIndex = newSongAdded + songIndex;
+      let lastPlayedSongIndex = songIndex;
       axios
         .post("http://www.kuetradio.org/api/getLastPlayedSongIndex.php", null, {
           params: {
