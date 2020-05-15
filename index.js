@@ -122,7 +122,7 @@ async function getSongList() {
     playingSong = { songIndex, ...songlist[songIndex], played: 0 };
 
     songLoop(songIndex);
-    console.log("Last played Index" + songIndex);
+    console.log("Last played Index " + songIndex);
   });
 }
 
