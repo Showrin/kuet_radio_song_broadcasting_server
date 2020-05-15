@@ -56,13 +56,13 @@ app.get("/playing", (req, res) => {
 });
 
 app.post("/upload", function (req, res) {
-  // let newSong = JSON.parse(req.body.newSong)[0];
-  // songlist.push(newSong);
+  let newSong = JSON.parse(req.body.newSong)[0];
+  songlist.push(newSong);
   newSongAdded++;
 
   let lastPlayedSongIndex = newSongAdded + songIndex;
   axios
-    .post("http://localhost/kuet_radio/api/sendLastPlayedSongIndex.php", null, {
+    .post("http://www.kuetradio.org/api/sendLastPlayedSongIndex.php", null, {
       params: {
         lastPlayedSongIndex,
       },
@@ -77,8 +77,8 @@ app.post("/upload", function (req, res) {
 
   res.send("true");
   console.log("Total new songs: " + newSongAdded);
-  // console.log(newSong);
-  // console.log(songlist);
+  console.log(newSong);
+  console.log(songlist);
   console.log("post at " + playingSong.played);
 });
 
@@ -107,7 +107,7 @@ async function getSongList() {
       let lastPlayedSongIndex = newSongAdded + songIndex;
       axios
         .post(
-          "http://localhost/kuet_radio/api/sendLastPlayedSongIndex.php",
+          "http://www.kuetradio.org/api/sendLastPlayedSongIndex.php",
           null,
           {
             params: {
@@ -146,7 +146,7 @@ async function getSongList() {
   }
 
   songIndex = await axios
-    .get("http://localhost/kuet_radio/api/sendLastPlayedSongIndex.php")
+    .get("http://www.kuetradio.org/api/sendLastPlayedSongIndex.php")
     .then((response) => {
       return parseInt(response.data[0].song_index, 10);
     })
