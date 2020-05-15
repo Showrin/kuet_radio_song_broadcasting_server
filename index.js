@@ -62,7 +62,7 @@ app.post("/upload", function (req, res) {
 
   let lastPlayedSongIndex = newSongAdded + songIndex;
   axios
-    .post("http://www.kuetradio.org/api/sendLastPlayedSongIndex.php", null, {
+    .post("http://www.kuetradio.org/api/getLastPlayedSongIndex.php", null, {
       params: {
         lastPlayedSongIndex,
       },
@@ -106,15 +106,11 @@ async function getSongList() {
 
       let lastPlayedSongIndex = newSongAdded + songIndex;
       axios
-        .post(
-          "http://www.kuetradio.org/api/sendLastPlayedSongIndex.php",
-          null,
-          {
-            params: {
-              lastPlayedSongIndex,
-            },
-          }
-        )
+        .post("http://www.kuetradio.org/api/getLastPlayedSongIndex.php", null, {
+          params: {
+            lastPlayedSongIndex,
+          },
+        })
         .then((response) => {
           console.log("Song Index Changed ---------->");
           console.log(response.data);
