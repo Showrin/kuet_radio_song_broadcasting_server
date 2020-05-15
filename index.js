@@ -76,7 +76,7 @@ app.post("/upload", function (req, res) {
     });
 
   res.send("true");
-  console.log("Total new songs: " + newSongAdded);
+  console.log("Stored Index as last Played: " + songIndex);
   console.log(newSong);
   console.log(songlist);
   console.log("post at " + playingSong.played);
