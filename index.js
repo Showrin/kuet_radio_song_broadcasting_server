@@ -88,12 +88,6 @@ async function getSongList() {
         songIndex++;
       }
 
-      let lastSongIndex = songIndex + newSongAdded;
-      fs.writeFile("lastSongIndex.txt", lastSongIndex, (err) => {
-        if (err) console.log(err);
-        console.log("Successfully Written to File.");
-      });
-
       console.log(playingSong.name + " has ended......");
 
       playingSong = { songIndex, ...songlist[songIndex], played: 0 };
@@ -117,13 +111,11 @@ async function getSongList() {
   }
 
   let songIndex = 0;
-  fs.readFile("lastSongIndex.txt", "utf-8", (err, data) => {
-    songIndex = parseInt(data, 10);
-    playingSong = { songIndex, ...songlist[songIndex], played: 0 };
+  songIndex = 0;
+  playingSong = { songIndex, ...songlist[songIndex], played: 0 };
 
-    songLoop(songIndex);
-    console.log("Last played Index " + songIndex);
-  });
+  songLoop(songIndex);
+  console.log("Last played Index " + songIndex);
 }
 
 getSongList();
