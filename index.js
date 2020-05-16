@@ -56,7 +56,7 @@ app.get("/playing", (req, res) => {
 
 app.post("/upload", async function (req, res) {
   let newSong = await req.body.newSong;
-  newSong = await JSON.parse(JSON.stringify(req.body.newSong))[0];
+  newSong = await JSON.parse(req.body.newSong)[0];
   songlist.unshift(newSong);
 
   songIndex++;
