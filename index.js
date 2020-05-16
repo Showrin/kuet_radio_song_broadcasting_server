@@ -54,9 +54,10 @@ app.get("/playing", (req, res) => {
   console.log("Knocked at " + playingSong.played);
 });
 
-app.post("/upload", function (req, res) {
-  let newSong = JSON.parse(req.body.newSong)[0];
-  songlist.shift(newSong);
+app.post("/upload", async function (req, res) {
+  let newSong = await req.body.newSong;
+  newSong = await JSON.parse(JSON.stringify(req.body.newSong))[0];
+  songlist.unshift(newSong);
 
   songIndex++;
 
